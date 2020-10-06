@@ -30,7 +30,8 @@ jobs:
       
             - name: Send email if failure tests
               uses: dawidd6/action-send-mail@v2
-              if: ${{ always() }}
+              if: ${{ failure() }}
+#always() }}
               with:
                 server_address: smtp.yandex.ru
                 server_port: 465
