@@ -1,0 +1,29 @@
+name: Tests for pull request
+on:[pull_request]
+jobs:
+      build:
+        name: Build
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [13.x]
+
+        steps:
+            - uses: actions/checkout@v1
+              with:
+                ref: master
+
+            - name: Node ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install
+              run: npm install
+
+            - name: copy env file
+              run: |
+                yes| cp ./src/environments/environment.ts.dist ./src/environments/environment.ts
+  
+            - name: Test
+              run: npm run test -- --no-watch
