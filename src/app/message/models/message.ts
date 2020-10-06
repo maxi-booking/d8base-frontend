@@ -11,4 +11,5 @@ export class Message {
     @Expose() public is_read: boolean;
     @Expose() public read_datetime: string;
     @Expose() public created: string;
+    @Expose() public test_string: string;
 }
