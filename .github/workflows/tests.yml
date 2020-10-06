@@ -27,3 +27,20 @@ jobs:
 
             - name: Test
               run: npm run test -- --no-watch
+      
+            - name: Send email if failure tests
+              uses: dawidd6/action-send-mail@v2
+              with:
+                server_address: smtp.yandex.ru
+                server_port: 465
+                username: ${{secrets.MAIL_USERNAME}}
+                password: ${{secrets.MAIL_PASSWORD}}
+                subject: Github Actions - test failure
+                # Literal body:
+                body: Tests of ${{github.repository}} are failure
+                to: ko.grebennikov@gmail.com
+                from: Github actions # <user@example.com>
+                # Optional content type (defaults to text/plain):
+                content_type: text/html
+                # Optional attachments:
+                # attachments: attachments.zip,git.diff,./dist/static/main.js
