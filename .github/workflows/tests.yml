@@ -30,7 +30,7 @@ jobs:
       
             - name: Send email if failure tests
               uses: dawidd6/action-send-mail@v2
-              if: ${{ failure() }}
+              if: ${{ success() }}
 #always() }}
               with:
                 server_address: smtp.yandex.ru
