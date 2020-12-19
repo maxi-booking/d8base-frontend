@@ -65,6 +65,7 @@ export const environment = {
         calendar: '/api/schedule/calendar/',
         service_schedule_set: '/api/accounts/service-schedule/set/',
         master_schedule_set: '/api/accounts/professional-schedule/set/',
+        search: '/api/search/',
         url: 'http://localhost:8000'
     },
     client_id: '',

@@ -17,7 +17,7 @@
                     <app-service-widget [service]="service" [master]="master"
                                         [alwaysExpanded]="true">
                     </app-service-widget>
-                    <ion-button [routerLink]="'/order/' + service.id" size="full">
+                    <ion-button [routerLink]="orderRouterLink" [queryParams]="orderRouterQueryParams" size="full">
                         {{ 'order.order-service' | translate }}
                     </ion-button>
                 </ng-container>

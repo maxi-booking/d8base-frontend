@@ -117,7 +117,8 @@ export class HelperService {
             environment.backend.url + environment.backend.services_readonly,
             environment.backend.url + environment.backend.service_tag_readonly,
             environment.backend.url + environment.backend.master_photos_readonly,
-            environment.backend.url + environment.backend.calendar
+            environment.backend.url + environment.backend.calendar,
+            environment.backend.url + environment.backend.search
         ];
     }
 }
