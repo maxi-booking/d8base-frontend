@@ -17,7 +17,7 @@ export class ServiceDetailsPageComponent implements OnInit {
 
     public master: ProfessionalList;
     public orderRouterLink: string;
-    public orderRouterQueryParams: any;
+    public orderRouterQueryParams: { [key: string]: string };
 
     constructor(
         private readonly route: ActivatedRoute,
