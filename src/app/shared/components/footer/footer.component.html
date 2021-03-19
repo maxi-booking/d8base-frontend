@@ -37,7 +37,7 @@
     <ion-item class="footer-min-height" lines="none" slot="start">
       {{'template.support'|translate}}
     </ion-item>
-    <ion-item class="footer-min-height" lines="none" slot="end" *ngIf="platform.is('desktop')">
+    <ion-item class="footer-min-height" lines="none" slot="end" *ngIf="isDesktop">
       <app-media-links class="footer-min-height"></app-media-links>
     </ion-item>
   </ion-toolbar>
@@ -46,7 +46,7 @@
       {{'template.terms-of-use'|translate}}
     </ion-item>
   </ion-toolbar>
-  <ion-toolbar class="d8b-container footer-min-height" *ngIf="!platform.is('desktop')">
+  <ion-toolbar class="d8b-container footer-min-height" *ngIf="!isDesktop">
     <ion-item class="footer-min-height ion-item-no-side-padding" slot="start" lines="none">
       <app-media-links class="footer-min-height"></app-media-links>
     </ion-item>

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FcmDeviceService } from '@app/core/services/fcm-device.service';
 import { environment } from '@env/environment';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -15,11 +16,16 @@ export class PlatformService {
     private readonly statusBar: StatusBar,
     private readonly notificationWorker: NotificationWorkerService,
     private readonly fcmDevice: FcmDeviceService,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
   ) {
     if (!firebase.apps.length) {
       firebase.initializeApp(environment.firebaseConfig);
     }
     this.initializePlatform().then();
+  }
+
+  public isDesktop(): boolean {
+      return !isPlatformServer(this.platformId) && this.platform.is('desktop');
   }
 
   private async initializePlatform(): Promise<void> {

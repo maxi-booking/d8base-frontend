@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { PlatformService } from '@app/core/services';
 
 @Component({
   selector: 'app-footer',
@@ -7,6 +7,8 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  constructor(public readonly platform: Platform) {
+  public readonly isDesktop: boolean;
+  constructor(platformService: PlatformService) {
+    this.isDesktop = platformService.isDesktop();
   }
 }

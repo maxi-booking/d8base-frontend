@@ -24,7 +24,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import * as Sentry from '@sentry/angular';
@@ -96,14 +96,14 @@ import { StoreModule } from './store/store.module';
     FcmDeviceService,
     {
       provide: LocationAccuracy,
-      useFactory: (platform: Platform) =>
-        !platform.is('desktop')
+      useFactory: (platformService: PlatformService) =>
+        !platformService.isDesktop()
           ? LocationAccuracy
           : {
             request: () => Promise.resolve(true),
             canRequest: () => Promise.resolve(),
           },
-      deps: [Platform],
+      deps: [PlatformService],
     },
     {
       provide: Sentry.TraceService,

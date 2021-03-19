@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { UserLocation } from '@app/api/models';
-import { AuthenticationService, MasterManagerService } from '@app/core/services';
+import { AuthenticationService, MasterManagerService, PlatformService } from '@app/core/services';
 import { UnreadMessagesService } from '@app/core/services/unread-messages.service';
 import { UserManagerService } from '@app/core/services/user-manager.service';
-import { MenuController, Platform } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import HeaderContext from './header-context.interface';
@@ -17,16 +17,16 @@ export class HeaderComponent {
   public context$: Observable<HeaderContext>;
   public defaultLocation$: Observable<UserLocation>;
   public countOfUnreadMessages$ = this.unreadMessagesService.unreadMessagesCount();
-
+  public readonly isDesktop: boolean;
   private readonly isAuthenticated$: Observable<boolean>;
 
   constructor(
-    private readonly platform: Platform,
     private readonly menuController: MenuController,
     public readonly unreadMessagesService: UnreadMessagesService,
     userManager: UserManagerService,
     authenticator: AuthenticationService,
     masterManager: MasterManagerService,
+    platformService: PlatformService,
   ) {
     this.isAuthenticated$ = authenticator.isAuthenticated$;
     this.context$ = combineLatest([
@@ -36,10 +36,7 @@ export class HeaderComponent {
       map(([isAuthenticated, isMaster]) => ({isAuthenticated, isMaster})),
     );
     this.defaultLocation$ = userManager.defaultLocation$.pipe(filter(x => !!x));
-  }
-
-  public isDesktop(): boolean {
-    return this.platform.is('desktop');
+    this.isDesktop = platformService.isDesktop();
   }
 
   /**

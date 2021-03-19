@@ -13,7 +13,7 @@
 
     <ng-container *ngIf="context.isAuthenticated">
       <ng-container *ngIf="!context.isMaster; else master">
-        <ion-item *ngIf="isDesktop()" [detail]="false" lines="none" slot="end" routerLink="/service/publish">
+        <ion-item *ngIf="isDesktop" [detail]="false" lines="none" slot="end" routerLink="/service/publish">
           {{ 'template.become-master' | translate }}
         </ion-item>
         <ion-item class="my-orders" lines="none" slot="end" routerLink="/my-orders/outbox" [detail]="false">
@@ -52,7 +52,7 @@
       class="text-blue"
       slot="end"
       [detail]="false"
-      *ngIf="!context.isAuthenticated && isDesktop()"
+      *ngIf="!context.isAuthenticated && isDesktop"
       routerLink="/auth/registration"
       routerLinkActive="active"
       routerDirection="forward"

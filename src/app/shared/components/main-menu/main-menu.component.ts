@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { PlatformService } from '@app/core/services';
 import { MainMenuItem, mainMenuItems } from './main-menu';
 
 @Component({
@@ -14,7 +14,7 @@ export class MainMenuComponent {
   public mainMenuItems = mainMenuItems;
 
   constructor(
-    private readonly platform: Platform,
+    private readonly platformService: PlatformService,
   ) {
   }
 
@@ -23,7 +23,7 @@ export class MainMenuComponent {
       return false;
     }
 
-    if (item.desktopOnly && !this.platform.is('desktop')) {
+    if (item.desktopOnly && !this.platformService.isDesktop()) {
       return false;
     }
 

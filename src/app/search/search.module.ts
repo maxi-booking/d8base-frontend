@@ -15,6 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicSelectableModule } from 'ionic-selectable';
+import { FiltersPage } from './pages/filters/filters.page';
 import { SearchPage } from './search-page.component';
 import { SearchPageRoutingModule } from './search-routing.module';
 
@@ -38,6 +39,7 @@ import { SearchPageRoutingModule } from './search-routing.module';
     SearchFiltersMainTabComponent,
     SearchFiltersAdditionalTabComponent,
     SearchResultComponent,
+    FiltersPage,
   ],
   exports: [SearchFiltersComponent],
   providers: [SearchFilterStateService],
