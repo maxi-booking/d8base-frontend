@@ -5,17 +5,70 @@ import '@angular/localize/init';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
+import { environment } from '@env/environment';
 import 'zone.js/dist/zone-mix';
 
-import { createWindow } from 'domino';
+function copyProps(src, target) {
+  Object.defineProperties(target, {
+    ...Object.getOwnPropertyDescriptors(src),
+    ...Object.getOwnPropertyDescriptors(target),
+  });
+}
+
 const distFolder = join(process.cwd(), 'dist/d8base');
 const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index.html';
-const window = createWindow(join(distFolder, indexHtml));
-global['window'] = window;
-global['self'] =  window;
-global['document'] = window.document;
-global['navigator'] = window.navigator;
-global['window'].screen = {};
+
+const domino = require('domino-custom-elements');
+const EventTarget = require('domino-custom-elements/lib/EventTarget');
+const NavigatorID = require('domino-custom-elements/lib/NavigatorID');
+const { createElement, HTMLElement } = require('domino-custom-elements/lib/htmlelts');
+const select = require('domino-custom-elements/lib/select');
+const window = domino.createWindow(join(distFolder, indexHtml), environment.origin);
+global['window'] = {
+  ...window,
+  ...domino.impl,
+  HTMLElement,
+  ...EventTarget.prototype,
+  document: {
+    ...window.document,
+    baseURI: environment.origin,
+    ...EventTarget.prototype,
+    createElement: (doc, localName, prefix) => {
+      const _customElementRegistry = doc._customElementRegistry ?? { get: () => {} };
+      const implementation = doc.implementation ?? { mozHTMLParser: domino.impl.HTMLParser };
+      const adoptNode = doc.adoptNode ?? window.document.adoptNode;
+      return createElement({ ...doc, _customElementRegistry, implementation, adoptNode }, localName, prefix);
+    },
+    querySelectorAll: selector => {
+      const nodes = select(selector, window.document);
+      return nodes.item ? nodes : new domino.impl.NodeList(nodes);
+    },
+    head: {
+      attachShadow: () => {},
+      querySelector: () => {},
+      insertBefore: () => {},
+      childNodes: [],
+    },
+  },
+  customElements: domino.customElements,
+  matchMedia: () => true,
+  screen: {},
+  navigator: {
+    ...window.navigator,
+    appCodeName: 'Mozilla',
+    appName: 'Netscape',
+    appVersion: '4.0',
+    platform: '',
+    product: 'Gecko',
+    productSub: '20100101',
+    userAgent: '',
+    vendor: '',
+    vendorSub: '',
+    taintEnabled: () => false,
+  },
+};
+global['self'] = global['window'];
+copyProps(global['window'], global);
 
 import { AppServerModule } from './src/main.server';
 

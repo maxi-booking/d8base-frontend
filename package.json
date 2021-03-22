@@ -61,6 +61,7 @@
     "class-transformer": "^0.3.1",
     "cordova-sqlite-storage": "^3.4.1",
     "core-js": "^2.6.12",
+    "domino-custom-elements": "^1.1.7",
     "express": "^4.17.1",
     "firebase": "^8.2.7",
     "flag-icon-css": "^3.5.0",
