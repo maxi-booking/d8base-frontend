@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { StorageManagerService } from '@app/core/proxies/storage-manager.service';
 import { ServiceWizardPath } from '@app/service-wizard/const/service-wizard-path.const';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { fromPromise } from 'rxjs/internal-compatibility';
 import { filter, first, map, shareReplay } from 'rxjs/operators';
 import { ServiceIds } from '../enums/service-ids.enum';
 import { ServiceStepContext } from '../interfaces/step-context.interface';
@@ -139,6 +138,7 @@ export class ServiceWizardStateService {
     const newState: ServiceStepsState = {
       ...this.state$.value,
       [id]: data,
+      [ServiceIds.Summary]: { ...this.state$.value[ServiceIds.Summary], [id]: data },
     };
     this.state$.next(newState);
     await this.storage.set(this.storageKey, newState);

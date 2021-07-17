@@ -1,13 +1,13 @@
 <ion-radio-group
   *ngIf="context$ | async as context"
-  [value]="context.initialLocation?.location"
+  [value]="context.professionalLocations[0]"
   (ionChange)="onChange($event)"
 >
   <ion-item *ngFor="let location of context.professionalLocations" lines="full">
     <ion-label class="ion-text-wrap">
       <app-location-viewer [location]="location"></app-location-viewer>
     </ion-label>
-    <ion-radio [value]="location.id"></ion-radio>
+    <ion-radio [value]="location"></ion-radio>
   </ion-item>
   <app-add-button (click)="addNewLocation(context)">
     {{ 'list-item.add-new-address' | translate }}

@@ -1,5 +1,5 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Service } from '@app/api/models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ProfessionalLocation, Service } from '@app/api/models';
 import { AccountsService } from '@app/api/services/accounts.service';
 import { LocationEditorPopoverComponent } from '@app/shared/components/location-editor-popover/location-editor-popover.component';
 import { PopoverController } from '@ionic/angular';
@@ -18,6 +18,7 @@ import LocationSelectorContext from './location-selector-context.interface';
 export class LocationSelectorComponent {
   public context$: Observable<LocationSelectorContext>;
   @Output() public selectedLocationId = new EventEmitter<number>();
+  @Output() public selectedProfessionalLocation = new EventEmitter<ProfessionalLocation>();
   private readonly service$ = new ReplaySubject<Service>(1);
   private readonly refresh$ = new Subject<void>();
 
@@ -53,7 +54,9 @@ export class LocationSelectorComponent {
   }
 
   public onChange(event: CustomEvent): void {
-    this.selectedLocationId.emit(event.detail.value);
+    const location = event.detail.value;
+    this.selectedLocationId.emit(location.id);
+    this.selectedProfessionalLocation.emit(location);
   }
 
   // TODO use shared service/state when working with locations
@@ -77,6 +80,9 @@ export class LocationSelectorComponent {
 
   private emitInitialValue() {
     // selectedLocationId has to emit the initial value
-    this.context$.pipe(take(1)).subscribe(context => this.selectedLocationId.emit(context.initialLocation.location));
+    this.context$.pipe(take(1)).subscribe(context => {
+      this.selectedLocationId.emit(context.initialLocation.location);
+      this.selectedProfessionalLocation.emit(context.professionalLocations?.[0]);
+    });
   }
 }

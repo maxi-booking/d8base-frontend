@@ -5,13 +5,15 @@ import { SharedModule } from '@app/shared/shared.module';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicSelectableModule } from 'ionic-selectable';
-import { ServiceDetailsFormComponent, ServiceInfoFormComponent } from './components';
+import { ServiceDetailsFormComponent, ServiceInfoFormComponent, ServiceLocationFormComponent } from './components';
 import {
   CategoryServiceStepComponent,
   ServiceDetailsStepComponent,
   ServiceFirstStepGuardService,
   ServiceInfoStepComponent,
+  ServiceLocationStepComponent,
   ServiceStepContainerComponent,
+  ServiceSummaryStepComponent,
   ServiceWizardPage,
   ServiceWizardResetStateService,
   ServiceWizardStateService,
@@ -27,6 +29,9 @@ import { ServiceWizardRoutingModule } from './service-wizard-routing.module';
     ServiceInfoStepComponent,
     ServiceDetailsFormComponent,
     ServiceDetailsStepComponent,
+    ServiceLocationFormComponent,
+    ServiceLocationStepComponent,
+    ServiceSummaryStepComponent,
   ],
   imports: [
     CommonModule,

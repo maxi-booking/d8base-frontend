@@ -2,7 +2,7 @@ export enum ServiceIds {
   Category = 'category',
   Info = 'info',
   Details = 'details',
-  // Location = 'location',
+  Location = 'location',
   // Schedule = 'schedule',
-  // Summary = 'summary',
+  Summary = 'summary',
 }

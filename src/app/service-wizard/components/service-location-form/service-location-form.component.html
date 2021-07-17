@@ -1,0 +1,35 @@
+<form [formGroup]="form">
+  <section>
+    <header class="label-for-required-input">{{ 'service-details.service-type' | translate }}</header>
+    <ion-radio-group [formControlName]="formFields.ServiceType">
+      <ion-item *ngFor="let type of serviceTypes" lines="full">
+        <ion-label>{{ 'service-location.' + type | translate }}</ion-label>
+        <ion-radio value="{{ type }}"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </section>
+  <section>
+    <ng-container [ngSwitch]="form.get(formFields.ServiceType).value">
+      <ng-container *ngSwitchCase="'client'">
+        <header class="label-for-required-input">{{ 'service-details.location.from' | translate }}</header>
+        <app-location-selector
+          [service]="{}"
+          (selectedProfessionalLocation)="selectProfessionalLocation($event)"
+        ></app-location-selector>
+        <ion-item>
+          <ion-label position="floating" class="label-for-required-input">
+            {{ 'service-details.location.attendance-distance' | translate }}
+          </ion-label>
+          <ion-input type="number" min="0" max="9999" (ionChange)="enterDistance($event)"> </ion-input>
+        </ion-item>
+      </ng-container>
+      <ng-container *ngSwitchCase="'professional'">
+        <header class="label-for-required-input">{{ 'service-details.location.choose-address' | translate }}</header>
+        <app-location-selector
+          [service]="{}"
+          (selectedProfessionalLocation)="selectProfessionalLocation($event)"
+        ></app-location-selector>
+      </ng-container>
+    </ng-container>
+  </section>
+</form>

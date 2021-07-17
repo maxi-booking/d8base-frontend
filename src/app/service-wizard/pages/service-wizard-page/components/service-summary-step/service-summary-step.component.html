@@ -1,0 +1,8 @@
+<app-service-step-container>
+  <ion-item class="fs18" lines="none">
+    <ion-text>
+      <b>{{ 'service-wizard.step.summary' | translate }}</b>
+    </ion-text>
+  </ion-item>
+  <app-service-widget *ngIf="service" [service]="service" [alwaysExpanded]="true"></app-service-widget>
+</app-service-step-container>

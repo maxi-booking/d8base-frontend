@@ -1,4 +1,5 @@
 export enum ServiceLocationFormFields {
-  description = 'description',
-  photos = 'photos',
+  ServiceType = 'service_type',
+  Location = 'location',
+  MaxDistance = 'max_distance',
 }

@@ -4,8 +4,8 @@ import { Service, Subcategory } from '@app/api/models';
 import { AccountsService, ProfessionalsService } from '@app/api/services';
 import CurrentUserSelectors from '@app/store/current-user/current-user.selectors';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { map, takeUntil, filter, withLatestFrom, switchMap, tap, take } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { ServiceIds } from './enums/service-ids.enum';
 import { ServiceWizardStateService } from './services';
 
@@ -57,19 +57,22 @@ export class ServiceWizardPage {
     this.store
       .select(CurrentUserSelectors.defaultProfessional)
       .pipe(
-        filter(defaultProfessional => Boolean(defaultProfessional)),
-        take(1),
-        map(({ subcategory }) => subcategory),
-        switchMap(subcategoryId => this.professionalsService.professionalsSubcategoriesRead(subcategoryId)),
-        switchMap((subcategory: Subcategory) =>
-          this.professionalsService
-            .professionalsCategoriesRead(subcategory.category)
-            .pipe(map(category => ({ category, subcategory }))),
+        switchMap(defaultProfessional =>
+          !defaultProfessional
+            ? of(null)
+            : of(defaultProfessional).pipe(
+                switchMap(({ subcategory }) => this.professionalsService.professionalsSubcategoriesRead(subcategory)),
+                switchMap((subcategory: Subcategory) =>
+                  this.professionalsService
+                    .professionalsCategoriesRead(subcategory.category)
+                    .pipe(map(category => ({ category, subcategory }))),
+                ),
+              ),
         ),
         takeUntil(this.ngDestroy$),
       )
-      .subscribe(({ category, subcategory }) => {
-        this.wizardState.setContext({ [ServiceIds.Category]: { category, subcategory } });
+      .subscribe(categoryState => {
+        this.wizardState.setContext({ [ServiceIds.Category]: categoryState });
       });
   }
 }

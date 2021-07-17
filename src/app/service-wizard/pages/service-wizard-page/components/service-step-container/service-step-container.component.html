@@ -28,6 +28,9 @@
           </ng-template>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="isLastStep$ | async">
+        <app-service-publish-agreement></app-service-publish-agreement>
+      </ion-row>
     </ng-container>
   </app-content-wrapper>
 </ion-content>
